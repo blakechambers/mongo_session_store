@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 MONGO_VERS = '1.8.0' unless defined? MONGO_VERS
 
 RAILS_VERS = case ENV['RAILS_VERS']
+             when '4.0'
+               '~>4.0.0'
              when '3.1'
                '~>3.1.0'
              when '3.2'
@@ -10,7 +12,7 @@ RAILS_VERS = case ENV['RAILS_VERS']
              when nil
                nil
              else
-               raise "Invalid RAILS_VERS.  Available versions are 3.1, and 3.2."
+               raise "Invalid RAILS_VERS.  Available versions are 3.1, 3.2 and 4.0."
              end
 
 gemspec
@@ -22,13 +24,13 @@ group :development, :test do
   end
 
   if !ENV['MONGO_SESSION_STORE_ORM'] || ENV['MONGO_SESSION_STORE_ORM'] == 'mongoid'
-    gem 'mongoid', '~> 3.0', :platforms => [:ruby_19, :jruby, :ruby_20]
+    gem 'mongoid', '~> 4.0', :platforms => [:ruby_19, :jruby, :ruby_20]
   end
 
   if !ENV['MONGO_SESSION_STORE_ORM'] || ENV['MONGO_SESSION_STORE_ORM'] == 'mongo'
     gem 'mongo',         MONGO_VERS
+    gem 'bson_ext',      MONGO_VERS, :platforms => :ruby
   end
-  gem 'bson_ext',      MONGO_VERS, :platforms => :ruby
 
   gem 'system_timer', :platforms => :ruby_18
   gem 'rbx-require-relative', '0.0.5', :platforms => :ruby_18
