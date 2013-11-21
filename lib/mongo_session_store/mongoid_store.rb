@@ -18,8 +18,14 @@ module ActionDispatch
       end
 
       private
+
       def pack(data)
         BSON::Binary.new(Marshal.dump(data), :generic)
+      end
+
+      def unpack(packed)
+        return nil unless packed
+        Marshal.load(StringIO.new(packed.data.to_s))
       end
     end
   end
